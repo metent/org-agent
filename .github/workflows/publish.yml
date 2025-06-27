@@ -1,0 +1,48 @@
+name: Publish
+
+on:
+  push:
+    tags: [v*]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.16
+      - name: Build
+        run: bun compile
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get version
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+      - name: Publish to Container Registry
+        uses: bytecodealliance/wkg-github-action@v5
+        with:
+            oci-reference-without-tag: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}'
+            file: 'dist/org_tools.wasm'
+            description: 'An AI agent that automatically organizes tasks in an org-mode file'
+            source: 'https://github.com/metent/org-agent'
+            homepage: 'https://github.com/metent/org-agent'
+            version: ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            licenses: 'MIT'

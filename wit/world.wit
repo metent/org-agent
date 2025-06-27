@@ -1,0 +1,8 @@
+package metent:org-tools@0.1.0;
+
+world tools {
+	import wasi:cli/stdin@0.2.3;
+	import wasi:filesystem/preopens@0.2.3;
+	import wasi:filesystem/types@0.2.3;
+	include promptrs:tools/tools@0.3.0;
+}

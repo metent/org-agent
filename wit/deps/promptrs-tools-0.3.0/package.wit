@@ -1,0 +1,30 @@
+package promptrs:tools@0.3.0;
+
+interface caller {
+  record system {
+    prompt: string,
+    status-call: string,
+  }
+
+  record tool-delims {
+    available-tools: tuple<string, string>,
+    tool-call: tuple<string, string>,
+  }
+
+  record tool-response {
+    output: string,
+    status: option<string>,
+  }
+
+  resource tooling {
+    constructor(config: string);
+    init: func(delims: tool-delims) -> system;
+    prompt: func(content: string) -> result<string, string>;
+    status: func() -> string;
+    call: func(name: string, arguments: string) -> tool-response;
+  }
+}
+
+world tools {
+  export caller;
+}

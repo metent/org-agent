@@ -1,0 +1,23 @@
+{
+  "name": "org-agent",
+  "version": "0.3.0",
+  "module": "src/lib.ts",
+  "type": "module",
+  "scripts": {
+    "precompile": "bun install",
+    "compile": "bun build.ts"
+  },
+  "devDependencies": {
+    "@bytecodealliance/jco": "^1.11.2",
+    "@swc/cli": "^0.7.7",
+    "@types/bun": "^1.2.17",
+    "@types/node": "latest",
+    "esbuild": "^0.25.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@fxts/core": "^1.11.0"
+  }
+}

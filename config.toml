@@ -1,0 +1,7 @@
+default_registry = "wasi.dev"
+
+[namespace_registries.promptrs]
+registry = "promptrs"
+
+[namespace_registries.promptrs.metadata.oci]
+registry = "ghcr.io"

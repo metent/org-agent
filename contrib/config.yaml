@@ -1,0 +1,6 @@
+base_url: http://127.0.0.1:9001
+model: DeepSeek
+delims:
+  reasoning: [<think>, </think>]
+  available_tools: [<tools>, </tools>]
+  tool_call: [<tool_call>, </tool_call>]
