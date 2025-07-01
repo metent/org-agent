@@ -61,7 +61,10 @@ export function writeFileSync(path: string, data: string | Uint8Array): void {
     data = new TextEncoder().encode(data);
   }
 
-  fd.write(data, 0n);
+  const outputStream = fd.writeViaStream(0n);
+  const pollable = outputStream.subscribe();
+  outputStream.write(data);
+  pollable.block();
 }
 
 function getFd(
