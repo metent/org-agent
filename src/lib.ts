@@ -1,5 +1,6 @@
 import { OrgTools } from "./tools.ts";
 import { Err } from "./util.ts";
+import { closeSync, openSync } from "node:fs";
 import { type ToolDelims, Tooling } from "promptrs:tools/caller@0.3.0";
 
 class OrgTooling implements Tooling {
@@ -49,6 +50,8 @@ You may make multiple tool calls in a single response.
 
   call(name: string, args: string) {
     try {
+      const fd = openSync("knowledge.org", "a");
+      closeSync(fd);
       return {
         output: this.tools.tools[name](JSON.parse(args)),
       };

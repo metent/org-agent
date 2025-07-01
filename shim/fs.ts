@@ -1,11 +1,44 @@
 import { getDirectories } from "wasi:filesystem/preopens@0.2.3";
 import type {
+  Descriptor,
   DescriptorFlags,
   OpenFlags,
   PathFlags,
 } from "wasi:filesystem/types@0.2.3";
 
 const rootPath = ".";
+
+export function openSync(path: string, flags: string) {
+  const options = {
+    read: false,
+    write: false,
+    truncate: true,
+    create: false,
+  };
+  for (const f of flags) {
+    switch (f) {
+      case "r":
+        options.read = true;
+        break;
+      case "w":
+        options.write = true;
+        break;
+      case "a":
+        options.truncate = false;
+        options.create = true;
+        break;
+      case "+":
+        options.create = true;
+        break;
+    }
+  }
+
+  return getFd(path, options);
+}
+
+export function closeSync(fd: Descriptor) {
+  fd.sync();
+}
 
 export function readFileSync(
   path: string,
