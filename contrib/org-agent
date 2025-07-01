@@ -8,13 +8,9 @@ if [ -z "$config" ]; then
 fi
 config="$config/org-agent/config.yaml"
 
-rm -f /tmp/org-agent.fifo
-mkfifo /tmp/org-agent.fifo
-echo "Initial prompt:" > $HOME/tasks/knowledge.prompt
-
 wasmtime \
 	--dir "$HOME/tasks" \
 	-S allow-ip-name-lookup \
 	-S inherit-network \
 	--invoke "run(\"\", $(yq -o json "$config" | jq -Rs))" \
-	/usr/lib/org_agent.wasm < /tmp/org-agent.fifo
+	"$0"

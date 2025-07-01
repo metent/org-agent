@@ -14,18 +14,11 @@ On successful compilation, `dist/` should contain `org_agent.wasm` which needs t
 
 ## Usage
 
-For running on linux, first install the following dependencies
-- A terminal emulator (set it as $TERM)
-- A CLI text editor (set it as $EDITOR)
-- `wasmtime`, `jq`, `yq`, `inotify-tools`
+Install `wasmtime`, `jq` and `yq`, then run using
 
-then run using
 ```
 mkdir ~/.config/org-agent
 cp contrib/config.yaml ~/.config/org-agent/
 mkdir ~/tasks
-touch ~/tasks/knowledge.org
-touch ~/tasks/knowledge.prompt
-./contrib/prmpt &
-./contrib/org-agent
+./contrib/org-agent path/to/org-agent.wasm
 ```
