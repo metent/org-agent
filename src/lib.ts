@@ -54,6 +54,7 @@ You may make multiple tool calls in a single response.
       closeSync(fd);
       return {
         output: this.tools.tools[name](JSON.parse(args)),
+        status: this.status(),
       };
     } catch (err) {
       return {

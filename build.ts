@@ -47,7 +47,7 @@ async function build() {
   const deps = [
     "promptrs:openai-client@0.2.0",
     "promptrs:standard-parser@0.2.1",
-    "promptrs:unit-agent@0.3.1",
+    "promptrs:unit-agent@0.3.3",
   ].map((dep) => {
     const splits = dep.split("@");
     return { image: splits[0].replace(":", "/"), version: splits[1] };
