@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { readline } from "./wasi.ts";
+import { readTill } from "./wasi.ts";
 import {
   calculateInsertPosition,
   findNewParentInfo,
@@ -422,7 +422,7 @@ export class OrgTools extends Tools {
       }
     }
 
-    if (content !== "") writeFileSync("knowledge.prompt", content);
-    return readline();
+    if (content !== "") console.log(`${content}\n[PROMPT]\n`);
+    return readTill("[RESPOND]\n");
   }
 }
