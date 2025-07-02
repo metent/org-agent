@@ -45,7 +45,7 @@ async function build() {
   dist/org_tools.js`;
 
   const deps = [
-    "promptrs:openai-client@0.2.0",
+    "promptrs:openai-client@0.2.2",
     "promptrs:standard-parser@0.2.1",
     "promptrs:unit-agent@0.3.4",
   ].map((dep) => {
