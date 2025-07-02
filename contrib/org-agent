@@ -33,5 +33,5 @@ run "$1" | while IFS= read -r line; do case "$line" in
 		prompt=""
 		;;
 	*)
-		prompt="$prompt> $line$(printf '\n')"
+		prompt="$prompt> $line$(printf \\n)"
 esac; done
