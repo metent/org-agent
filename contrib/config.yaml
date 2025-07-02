@@ -1,5 +1,6 @@
 base_url: http://127.0.0.1:9001
 model: DeepSeek
+char_limit: 200000
 delims:
   reasoning: [<think>, </think>]
   available_tools: [<tools>, </tools>]

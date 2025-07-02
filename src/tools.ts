@@ -10,6 +10,7 @@ import {
 import { status, tool, Tools } from "./meta.ts";
 
 export class OrgTools extends Tools {
+  first = true;
   offset: number;
 
   constructor(offset = 0) {
@@ -422,7 +423,14 @@ export class OrgTools extends Tools {
       }
     }
 
-    if (content !== "") console.log(`${content}\n[PROMPT]\n`);
-    return readTill("[RESPOND]\n");
+    if (content !== "") {
+      console.log(`${content}\n[PROMPT]\n`);
+      return readTill("[RESPOND]\n");
+    }
+    if (this.first) {
+      this.first = false;
+      return "Ask me some questions.";
+    }
+    return "";
   }
 }

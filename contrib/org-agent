@@ -8,9 +8,30 @@ if [ -z "$config" ]; then
 fi
 config="$config/org-agent/config.yaml"
 
-wasmtime \
-	--dir "$HOME/tasks" \
-	-S allow-ip-name-lookup \
-	-S inherit-network \
-	--invoke "run(\"\", $(yq -o json "$config" | jq -Rs))" \
-	"$0"
+rm -f /tmp/knowledge.fifo
+mkfifo /tmp/knowledge.fifo
+exec 5<> /tmp/knowledge.fifo
+
+run() {
+	wasmtime \
+		--dir "$HOME/tasks" \
+		-S allow-ip-name-lookup \
+		-S inherit-network \
+		--invoke "run(\"\", $(yq -o json "$config" | jq -Rs))" \
+		"$1" <&5
+}
+
+run "$1" | while IFS= read -r line; do case "$line" in
+	'[DONE]')
+		prompt=""
+		;;
+	'[PROMPT]')
+		echo "$prompt" > /tmp/knowledge.prompt
+		"$TERM" "$EDITOR" /tmp/knowledge.prompt
+		sed '/^>/,/^>/!b;H;$!d;g;s/^\(.*\n\)\(>\).*\n/\1/' /tmp/knowledge.prompt >&5
+		printf "\n[RESPOND]\n" >&5
+		prompt=""
+		;;
+	*)
+		prompt="$prompt> $line$(printf '\n')"
+esac; done
